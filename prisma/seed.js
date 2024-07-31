@@ -1,7 +1,14 @@
 const prisma = require("../src/utils/db");
+const randID = require("../src/utils/rand");
 
 async function main() {
-
+  const data = await prisma.url.create({
+    data: {
+      url: "https://github.com/ImKnoX",
+      slug: randID(24)
+    }
+  })
+  return data
 }
 
 main()
