@@ -2,10 +2,22 @@ const express = require('express')
 const morgan = require('morgan')
 const path = require('path')
 const helmet = require('helmet');
+const { slowDown } = require('express-slow-down')
+const { rateLimit } = require('express-rate-limit')
 const { getOneSlug, createSlug } = require('./services/url.services');
 
 require('dotenv').config()
 const port = process.env.PORT || 3000;
+
+const apiSlow = slowDown({
+    windowMs: 30 * 1000,
+    delayAfter: 1,
+    delayMs: 500,
+});
+const apiRate = rateLimit({
+    windowMs: 30 * 1000,
+    max: 1,
+})
 
 const app = express()
 app.enable('trust proxy')
@@ -22,7 +34,7 @@ app.get('/', async(req, res) => {
     res.render('index')
 })
 
-app.post('/', async(req, res, next) => {
+app.post('/', apiSlow, apiRate, async(req, res, next) => {
     const { url } = req.body;
     try {
         const newData = await createSlug({ url })     
