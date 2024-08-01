@@ -131,3 +131,4 @@ dist
 /docker-data
 package-lock.json
 .vercel
+.vercel_build_output

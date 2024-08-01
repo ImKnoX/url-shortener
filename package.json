@@ -6,9 +6,10 @@
     "test": "nodemon src/index.js",
     "start": "node src/index.js",
     "push": "npx prisma db push",
+    "postbuild": "cp prisma/schema.prisma .vercel_build_output/functions/node/render && cp node_modules/@prisma/engine/*query* .vercel_build_output/functions/node/render",
     "generate": "npx prisma generate",
     "seed": "node prisma/seed.js",
-    "deploy": "npx prisma db push && npx vercel deploy"
+    "deploy": "npx prisma migrate deploy && npx vercel deploy"
   },
   "keywords": [],
   "author": "",

@@ -34,7 +34,7 @@ app.get('/', async(req, res) => {
     res.render('index')
 })
 
-app.post('/api/create', apiSlow, apiRate, async(req, res, next) => {
+app.post('/', apiSlow, apiRate, async(req, res, next) => {
     const { url } = req.body;
     try {
         const newData = await createSlug({ url })     
